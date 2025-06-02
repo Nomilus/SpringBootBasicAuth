@@ -1,6 +1,5 @@
 package com.example.example_auth.service.impl;
 
-import com.example.example_auth.model.dto.PasswordChangeRequest;
 import com.example.example_auth.model.dto.UserRequest;
 import com.example.example_auth.model.dto.UserResponse;
 
@@ -12,13 +11,9 @@ public interface UserService {
 
     UserResponse getUserById(UUID id);
 
-    UserResponse getUserByUsername(String username);
-
     List<UserResponse> getAllUsers();
 
     UserResponse updateUser(UUID id, UserRequest userRequest);
-
-    void changePassword(UUID userId, PasswordChangeRequest passwordChangeRequest);
 
     void deleteUser(UUID id);
 }

@@ -52,9 +52,6 @@ public class User {
     @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "roles", columnDefinition = "TEXT[]")
-    private String[] roles;
-
     @CreatedDate
     @Column(name = "created_at", updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
