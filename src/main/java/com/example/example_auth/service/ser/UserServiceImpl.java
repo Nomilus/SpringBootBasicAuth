@@ -1,8 +1,8 @@
 package com.example.example_auth.service.ser;
 
 import com.example.example_auth.mapper.UserMapper;
-import com.example.example_auth.model.dto.UserRequest;
-import com.example.example_auth.model.dto.UserResponse;
+import com.example.example_auth.model.dto.req.UserRequest;
+import com.example.example_auth.model.dto.res.UserResponse;
 import com.example.example_auth.model.entity.User;
 import com.example.example_auth.repository.UserRepository;
 import com.example.example_auth.service.impl.UserService;

@@ -1,7 +1,7 @@
 package com.example.example_auth.service.impl;
 
-import com.example.example_auth.model.dto.UserRequest;
-import com.example.example_auth.model.dto.UserResponse;
+import com.example.example_auth.model.dto.req.UserRequest;
+import com.example.example_auth.model.dto.res.UserResponse;
 
 import java.util.List;
 import java.util.UUID;

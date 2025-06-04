@@ -29,15 +29,12 @@ dependencies {
 
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 
-    // MapStruct dependencies
     implementation 'org.mapstruct:mapstruct:1.6.3'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 
-    // Lombok dependencies
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // Add this for Lombok + MapStruct integration
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
