@@ -1,5 +1,7 @@
 package com.example.example_auth.service.ser;
 
+import com.example.example_auth.exception.custom.DuplicateUserException;
+import com.example.example_auth.exception.custom.UserNotFoundException;
 import com.example.example_auth.mapper.UserMapper;
 import com.example.example_auth.model.dto.req.UserRequest;
 import com.example.example_auth.model.dto.res.UserResponse;
@@ -8,12 +10,14 @@ import com.example.example_auth.repository.UserRepository;
 import com.example.example_auth.service.impl.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -24,23 +28,19 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponse createUser(UserRequest userRequest) {
-
         if (userRepository.existsByUsername(userRequest.getUsername())) {
-            throw new RuntimeException("Username already exists");
+            throw new DuplicateUserException("Username already exists");
         }
-
         if (userRepository.existsByEmail(userRequest.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new DuplicateUserException("Email already exists");
         }
-
         User user = userMapper.toEntity(userRequest);
-        user.setPassword(userRequest.getPassword());
         return userMapper.toResponse(userRepository.save(user));
     }
 
     @Override
     public UserResponse getUserById(UUID id) {
-        return userMapper.toResponse(userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id:" + id)));
+        return userMapper.toResponse(userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id)));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponse updateUser(UUID id, UserRequest userRequest) {
-        User existingUser = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id:" + id));
+        User existingUser = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id:" + id));
         userMapper.updateEntity(userRequest, existingUser);
         return userMapper.toResponse(userRepository.save(existingUser));
     }
@@ -59,6 +59,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteUser(UUID id) {
-        userRepository.delete(userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id:" + id)));
+        userRepository.delete(userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id:" + id)));
     }
 }

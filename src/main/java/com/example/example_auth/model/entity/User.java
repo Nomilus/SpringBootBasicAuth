@@ -16,6 +16,7 @@ import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -26,6 +27,7 @@ import java.util.UUID;
 
 @Data
 @Entity
+@DynamicUpdate
 @Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
@@ -57,6 +59,6 @@ public class User {
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 }

@@ -1,49 +1,34 @@
 //package com.example.example_auth.exception;
 //
+//
 //import com.example.example_auth.model.dto.res.ErrorResponse;
 //import org.springframework.http.HttpStatus;
 //import org.springframework.http.ResponseEntity;
-//import org.springframework.validation.FieldError;
-//import org.springframework.web.bind.MethodArgumentNotValidException;
 //import org.springframework.web.bind.annotation.ExceptionHandler;
 //import org.springframework.web.bind.annotation.RestControllerAdvice;
 //import org.springframework.web.context.request.WebRequest;
 //
 //import java.time.LocalDateTime;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
 //
 //@RestControllerAdvice
 //public class GlobalExceptionHandler {
 //
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<ErrorResponse> handleValidationExceptions(
-//            MethodArgumentNotValidException e,
-//            WebRequest request
-//    ) {
-//        Map<String, String> errors = new HashMap<>();
-//        e.getBindingResult().getAllErrors().forEach((error) -> errors.put(((FieldError) error).getField(), error.getDefaultMessage()));
-//
+//    @ExceptionHandler(UserNotFoundException.class)
+//    public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException e, WebRequest request) {
 //        ErrorResponse response = new ErrorResponse(
 //                LocalDateTime.now(),
-//                HttpStatus.BAD_REQUEST.value(),
-//                HttpStatus.BAD_REQUEST.getReasonPhrase(),
-//                "Validation failed",
+//                HttpStatus.NOT_FOUND.value(),
+//                HttpStatus.NOT_FOUND.getReasonPhrase(),
+//                e.getMessage(),
 //                request.getContextPath(),
-//                errors,
+//                null,
 //                null
 //        );
-//
-//        return ResponseEntity.badRequest().body(response);
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
 //    }
 //
-//    @ExceptionHandler(IllegalArgumentException.class)
-//    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(
-//            IllegalArgumentException e,
-//            WebRequest request
-//    ) {
-//
+//    @ExceptionHandler(DuplicateUserException.class)
+//    public ResponseEntity<ErrorResponse> handleDuplicateUser(DuplicateUserException e, WebRequest request) {
 //        ErrorResponse response = new ErrorResponse(
 //                LocalDateTime.now(),
 //                HttpStatus.BAD_REQUEST.value(),
@@ -53,7 +38,6 @@
 //                null,
 //                null
 //        );
-//
 //        return ResponseEntity.badRequest().body(response);
 //    }
 //
@@ -66,9 +50,8 @@
 //                "Internal server error",
 //                request.getContextPath(),
 //                null,
-//                List.of(e.getMessage())
+//                null
 //        );
-//
-//        return ResponseEntity.badRequest().body(response);
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 //    }
 //}
