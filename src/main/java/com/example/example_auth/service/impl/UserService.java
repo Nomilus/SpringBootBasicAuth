@@ -7,11 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
-    UserResponse createUser(UserRequest userRequest);
+    UserResponse register(UserRequest userRequest);
 
-    UserResponse getUserById(UUID id);
-
-    List<UserResponse> getAllUsers();
+    UserResponse getDetailUserById(UUID id);
 
     UserResponse updateUser(UUID id, UserRequest userRequest);
 

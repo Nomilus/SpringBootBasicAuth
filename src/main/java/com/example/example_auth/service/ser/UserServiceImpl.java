@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResponse createUser(UserRequest userRequest) {
+    public UserResponse register(UserRequest userRequest) {
         if (userRepository.existsByUsername(userRequest.getUsername())) {
             throw new DuplicateUserException("Username already exists");
         }
@@ -39,13 +39,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse getUserById(UUID id) {
+    public UserResponse getDetailUserById(UUID id) {
         return userMapper.toResponse(userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found with id: " + id)));
-    }
-
-    @Override
-    public List<UserResponse> getAllUsers() {
-        return userRepository.findAll().stream().map(userMapper::toResponse).collect(Collectors.toList());
     }
 
     @Override

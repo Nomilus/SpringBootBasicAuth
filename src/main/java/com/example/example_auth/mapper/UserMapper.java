@@ -24,6 +24,7 @@ public interface UserMapper {
     UserResponse toResponse(User user);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "password", expression = "java(PasswordUtils.hashPassword(userRequest.getPassword()))")
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     void updateEntity(UserRequest userRequest, @MappingTarget User user);

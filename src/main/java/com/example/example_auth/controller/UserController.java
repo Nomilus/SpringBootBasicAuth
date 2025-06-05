@@ -15,69 +15,57 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
-    public ResponseEntity<MainResponse<UserResponse>> createUser(@Valid @RequestBody UserRequest userRequest) {
-        UserResponse createdUser = userService.createUser(userRequest);
+    @PostMapping("/register")
+    public ResponseEntity<MainResponse<UserResponse>> register(@Valid @RequestBody UserRequest userRequest) {
+        UserResponse createdUser = userService.register(userRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(new MainResponse<>(
                 LocalDateTime.now(),
                 HttpStatus.CREATED.value(),
                 "Created successfully",
-                "/api/users",
+                "/api/register",
                 createdUser
         ));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MainResponse<UserResponse>> getUserById(@PathVariable("id") UUID uuid) {
-        UserResponse user = userService.getUserById(uuid);
+    @GetMapping("/private/{id}")
+    public ResponseEntity<MainResponse<UserResponse>> getDetailUserById(@PathVariable("id") UUID uuid) {
+        UserResponse user = userService.getDetailUserById(uuid);
         return ResponseEntity.ok(new MainResponse<>(
                 LocalDateTime.now(),
                 HttpStatus.OK.value(),
                 "Successfully",
-                "/api/users/" + uuid,
+                "/api/private/" + uuid,
                 user
         ));
     }
 
-    @GetMapping
-    public ResponseEntity<MainResponse<List<UserResponse>>> getAllUsers() {
-        List<UserResponse> users = userService.getAllUsers();
-        return ResponseEntity.ok(new MainResponse<>(
-                LocalDateTime.now(),
-                HttpStatus.OK.value(),
-                "Successfully",
-                "/api/users",
-                users
-        ));
-    }
-
-    @PutMapping("/{id}")
+    @PutMapping("/private/{id}")
     public ResponseEntity<MainResponse<UserResponse>> updateUser(@PathVariable("id") UUID uuid, @Valid @RequestBody UserRequest userRequest) {
         UserResponse user = userService.updateUser(uuid, userRequest);
         return ResponseEntity.ok(new MainResponse<>(
                 LocalDateTime.now(),
                 HttpStatus.OK.value(),
                 "Update successfully",
-                "/api/users/" + uuid,
+                "/api/private/" + uuid,
                 user
         ));
 
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/private/{id}")
     public ResponseEntity<MainResponse<UserResponse>> deleteUser(@PathVariable("id") UUID uuid) {
         userService.deleteUser(uuid);
         return ResponseEntity.ok(new MainResponse<>(
                 LocalDateTime.now(),
                 HttpStatus.OK.value(),
                 "Delete successfully",
-                "/api/users/" + uuid,
+                "/api/private/" + uuid,
                 null
         ));
     }
