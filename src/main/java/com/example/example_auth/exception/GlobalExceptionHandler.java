@@ -1,4 +1,4 @@
-//package com.example.example_auth.exception;
+package com.example.example_auth.exception;//package com.example.example_auth.exception;
 //
 //
 //import com.example.example_auth.model.dto.res.ErrorResponse;

@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -33,8 +32,8 @@ public class UserController {
         ));
     }
 
-    @GetMapping("/private/{id}")
-    public ResponseEntity<MainResponse<UserResponse>> getDetailUserById(@PathVariable("id") UUID uuid) {
+    @GetMapping("/private")
+    public ResponseEntity<MainResponse<UserResponse>> getDetailUserById(@RequestAttribute("authenticatedUser") UUID uuid) {
         UserResponse user = userService.getDetailUserById(uuid);
         return ResponseEntity.ok(new MainResponse<>(
                 LocalDateTime.now(),
@@ -45,8 +44,8 @@ public class UserController {
         ));
     }
 
-    @PutMapping("/private/{id}")
-    public ResponseEntity<MainResponse<UserResponse>> updateUser(@PathVariable("id") UUID uuid, @Valid @RequestBody UserRequest userRequest) {
+    @PutMapping("/private")
+    public ResponseEntity<MainResponse<UserResponse>> updateUser(@RequestAttribute("authenticatedUser") UUID uuid, @Valid @RequestBody UserRequest userRequest) {
         UserResponse user = userService.updateUser(uuid, userRequest);
         return ResponseEntity.ok(new MainResponse<>(
                 LocalDateTime.now(),
@@ -58,8 +57,8 @@ public class UserController {
 
     }
 
-    @DeleteMapping("/private/{id}")
-    public ResponseEntity<MainResponse<UserResponse>> deleteUser(@PathVariable("id") UUID uuid) {
+    @DeleteMapping("/private")
+    public ResponseEntity<MainResponse<UserResponse>> deleteUser(@RequestAttribute("authenticatedUser") UUID uuid) {
         userService.deleteUser(uuid);
         return ResponseEntity.ok(new MainResponse<>(
                 LocalDateTime.now(),
